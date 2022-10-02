@@ -28,8 +28,7 @@ const articleSchema = {
 // Let's create a model from the schema
 const Article = mongoose.model("Article", articleSchema);
 
-// Let's get all items from Article document
-app.get("/articles", function(req, res){
+app.route("/articles").get(function(req, res){
   Article.find(function(err, foundArticles) {
     if (!err){
       res.send(foundArticles);
@@ -38,11 +37,7 @@ app.get("/articles", function(req, res){
       res.send(err);
     }
   });
-});
-
-// ----------------------------------------------------------------------
-//lets' create the post route so API can send the article and title
-app.post("/articles", function(req, res){
+}).post(function(req, res){
   // Let's save the title and content that was posted via API POST to the DB:
   const newArticle = new Article ({
     title: req.body.title,
@@ -59,10 +54,7 @@ newArticle.save(function(err){
       res.send(err);
     }
   });
-});
-// ----------------------------------------------------------------------
-
-app.delete("/articles", function(req, res){
+}).delete(function(req, res){
 Article.deleteMany(function(err){
   if (!err) {
     res.send("Deleted All Articles!");
